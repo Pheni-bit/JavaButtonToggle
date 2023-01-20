@@ -55,10 +55,7 @@
         const ToggleButtonPressed = (e) => {
             if(e.target.nodeName === 'DIV') {
                 var targetID = e.target.id.replace(/\d+/g, '');
-                if (targetID !== 'toggle-btn-'){
-                    return;
-                }
-                if (e.target.id === prevToggleButton.id){
+                if (targetID !== 'toggle-btn-' || e.target.id === prevToggleButton.id){
                     return;
                 }
                 e.target.classList.add('active'); 
