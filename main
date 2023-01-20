@@ -17,11 +17,11 @@
             display: none;
         }
     </style>
-        <div id="buttonGroup">
-            <button id="button0">Tin Aresole Cans</button>
-            <button id="button1">Alluminum Cans</button>
-            <button id="button2">Aresole Valves</button>
-            <button id="button3">Aresole Actuators</button>
+        <div id="inputGroup">
+            <input id="input0">Tin Aresole Cans</input>
+            <input id="input1">Alluminum Cans</input>
+            <input id="input2">Aresole Valves</input>
+            <input id="input3">Aresole Actuators</input>
         </div>
     <div id = "slide0">
         <div>First Slide</div>
@@ -38,18 +38,18 @@
     
     <script>
         
-        const buttonGroup = document.getElementById("buttonGroup"); 
+        const inputGroup = document.getElementById("inputGroup"); 
         
-        let prevButton = null;
+        let prevInput = null;
         
-        const buttonPressed = (e) => {
-            if(e.target.nodeName === 'BUTTON') {
+        const inputPressed = (e) => {
+            if(e.target.nodeName === 'INPUT') {
                 e.target.classList.add('active'); 
-                if(prevButton !== null) {
-                    prevButton.classList.remove('active');  
-                    removeInformation(prevButton);
+                if(prevInput !== null) {
+                    prevInput.classList.remove('active');  
+                    removeInformation(prevInput);
                 }
-                prevButton = e.target;
+                prevInput = e.target;
                 displayInformation(e.target);
             }
         }
@@ -67,6 +67,6 @@
         }
         
         
-        buttonGroup.addEventListener('click', buttonPressed);
+        inputGroup.addEventListener('click', inputPressed);
     </script>
 </html>
