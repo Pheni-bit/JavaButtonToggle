@@ -27,7 +27,7 @@
             <div>
             <div id="toggle-btn-1" class="block">Tin Aresole Cans</div>
             <div id="toggle-btn-2" class="block">Alluminum Cans</div>
-            <div id="toggle-btn-3" class="block">Aresole Valves</div>
+            <div id="toggle-btn-333" class="block">Aresole Valves</div>
             <div id="toggle-btn-4" class="block">Aresole Actuators</div>
             </div>
         </div>
@@ -37,7 +37,7 @@
     <div id = "toggle-sec-2" class='hidden'>
         <div>Second Slide</div>
     </div>
-    <div id = "toggle-sec-3" class='hidden'>
+    <div id = "toggle-sec-333" class='hidden'>
         <div>Third Slide</div>
     </div>
     <div id = "toggle-sec-4" class='hidden'>
@@ -54,7 +54,7 @@
         
         const ToggleButtonPressed = (e) => {
             if(e.target.nodeName === 'DIV') {
-                var targetID = e.target.id.slice(0, -1);
+                var targetID = e.target.id.replace(/\d+/g, '');
                 if (targetID !== 'toggle-btn-'){
                     return;
                 }
@@ -68,13 +68,13 @@
             }
         }
         const RemoveInformation = (e) => {
-            var index = e.id.split('').pop();
+            var index = e.id.replace(/\D/g,'');
             var refereceData = 'toggle-sec-' + index;
             var slide = document.getElementById(refereceData);
             slide.classList.add('hidden');
         }
         const DisplayInformation = (e) => {
-            var index = e.id.split('').pop();
+            var index = e.id.replace(/\D/g,'');
             var refereceData = 'toggle-sec-' + index;
             var slide = document.getElementById(refereceData);
             slide.classList.remove('hidden');
