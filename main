@@ -40,7 +40,10 @@
         
         const inputGroup = document.getElementById("inputGroup"); 
         
-        let prevInput = null;
+        var startinginput = document.getElementById('input0');
+        startinginput.classList.add('active');
+        
+        let prevInput = startinginput;
         
         const inputPressed = (e) => {
             if(e.target.nodeName === 'INPUT') {
@@ -66,8 +69,7 @@
             slide.classList.remove('hidden');
         }
         
-        var startinginput = document.getElementById('input0');
-        startinginput.classList.add('active');
+        
         inputGroup.addEventListener('click', inputPressed);
     </script>
 </html>
