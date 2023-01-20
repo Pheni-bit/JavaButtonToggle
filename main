@@ -23,59 +23,63 @@
             margin: 0;
         }
     </style>
-        <div id="inputGroup">
-            <div id="input0" class="block">Tin Aresole Cans</div>
-            <div id="input1" class="block">Alluminum Cans</div>
-            <div id="input2" class="block">Aresole Valves</div>
-            <div id="input3" class="block">Aresole Actuators</div>
+        <div id="toggle-group">
+            <div>
+            <div id="toggle-btn-1" class="block">Tin Aresole Cans</div>
+            <div id="toggle-btn-2" class="block">Alluminum Cans</div>
+            <div id="toggle-btn-3" class="block">Aresole Valves</div>
+            <div id="toggle-btn-4" class="block">Aresole Actuators</div>
+            </div>
         </div>
-    <div id = "slide0">
+    <div id = "toggle-sec-1">
         <div>First Slide</div>
     </div>
-    <div id = "slide1" class='hidden'>
+    <div id = "toggle-sec-2" class='hidden'>
         <div>Second Slide</div>
     </div>
-    <div id = "slide2" class='hidden'>
+    <div id = "toggle-sec-3" class='hidden'>
         <div>Third Slide</div>
     </div>
-    <div id = "slide3" class='hidden'>
+    <div id = "toggle-sec-4" class='hidden'>
         <div>Fourth Slide</div>
     </div>
-    
     <script>
         
-        const inputGroup = document.getElementById("inputGroup"); 
+        const toggleGroup = document.getElementById("toggle-group"); 
         
-        var startinginput = document.getElementById('input0');
-        startinginput.classList.add('active');
+        var startingToggleButton = document.getElementById('toggle-btn-1');
+        startingToggleButton.classList.add('active');
         
-        let prevInput = startinginput;
+        let prevToggleButton = startingToggleButton;
         
-        const inputPressed = (e) => {
+        const ToggleButtonPressed = (e) => {
             if(e.target.nodeName === 'DIV') {
-                e.target.classList.add('active'); 
-                if(prevInput !== null) {
-                    prevInput.classList.remove('active');  
-                    removeInformation(prevInput);
+                var targetID = e.target.id.slice(0, -1);
+                if (targetID !== 'toggle-btn-'){
+                    return;
                 }
-                prevInput = e.target;
-                displayInformation(e.target);
+                e.target.classList.add('active'); 
+                if(prevToggleButton !== null) {
+                    prevToggleButton.classList.remove('active');  
+                    RemoveInformation(prevToggleButton);
+                }
+                prevToggleButton = e.target;
+                DisplayInformation(e.target);
             }
         }
-        const removeInformation = (e) => {
+        const RemoveInformation = (e) => {
             var index = e.id.split('').pop();
-            var refereceData = 'slide' + index;
+            var refereceData = 'toggle-sec-' + index;
             var slide = document.getElementById(refereceData);
             slide.classList.add('hidden');
         }
-        const displayInformation = (e) => {
+        const DisplayInformation = (e) => {
             var index = e.id.split('').pop();
-            var refereceData = 'slide' + index;
+            var refereceData = 'toggle-sec-' + index;
             var slide = document.getElementById(refereceData);
             slide.classList.remove('hidden');
         }
         
-        
-        inputGroup.addEventListener('click', inputPressed);
+        toggleGroup.addEventListener('click', ToggleButtonPressed);
     </script>
 </html>
