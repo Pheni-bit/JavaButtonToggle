@@ -35,9 +35,6 @@
     <div id = "slide3" class='hidden'>
         <div>Fourth Slide</div>
     </div>
-    <div id = "slide4" class='hidden'>
-        <div>Fifth Slide</div>
-    </div>
     
     <script>
         
