@@ -13,6 +13,9 @@
         .active {
             background:#32bacf;
         }
+        .hidden {
+            display: none;
+        }
     </style>
         <div id="buttonGroup">
             <button id="button0">Tin Aresole Cans</button>
@@ -20,44 +23,23 @@
             <button id="button2">Aresole Valves</button>
             <button id="button3">Aresole Actuators</button>
         </div>
-    <div id = "specifications"></div>
-    <div id = "capacity"></div>
-    <div id = "diameter"></div>
-    <div id = "shape"></div>
-    <div id = "printing"></div>
+    <div id = "slide0">
+        <div>First Slide</div>
+    </div>
+    <div id = "slide1" class='hidden'>
+        <div>Second Slide</div>
+    </div>
+    <div id = "slide2" class='hidden'>
+        <div>Third Slide</div>
+    </div>
+    <div id = "slide3" class='hidden'>
+        <div>Fourth Slide</div>
+    </div>
+    <div id = "slide4" class='hidden'>
+        <div>Fifth Slide</div>
+    </div>
     
     <script>
-        const tinSpec = "Tin Aresole Cans Specifications";
-        const tinCap = "5 - 30oz";
-        const tinDiam = "Tin Aresole Cans Diameter";
-        const tinShape = "Tin Aresole Cans Shape";
-        const tinPrint = "Tin Aresole Cans Printing";
-        
-        const allSpec = "Alluminum Cans Specifications";
-        const allCap = "Alluminum Cans Capacity";
-        const allDiam = "Alluminum Cans Diameter";
-        const allShape = "Alluminum Cans Shape";
-        const allPrint = "Alluminum Cans Printing";
-        
-        const areValSpec = "Aresole Valve Specifications";
-        const areValCap = "Aresole Valve Capacity";
-        const areValDiam = "Aresole Valve Diameter";
-        const areValShape = "Aresole Valve Shape";
-        const areValPrint = "Aresole Valve Printing";
-        
-        const areActSpec = "Aresole Actuators Specifications";
-        const areActCap = "Aresole Actuators Capacity";
-        const areActDiam = "Aresole Actuators Diameter";
-        const areActShape = "Aresole Actuators Shape";
-        const areActPrint = "Aresole Actuators Printing";
-       
-        
-        
-        const specifications = document.getElementById("specifications")
-        const capacity = document.getElementById("capacity");
-        const diameter = document.getElementById("diameter");
-        const shape = document.getElementById("shape");
-        const printing = document.getElementById("printing");
         
         const buttonGroup = document.getElementById("buttonGroup"); 
         
@@ -65,51 +47,29 @@
         
         const buttonPressed = (e) => {
             if(e.target.nodeName === 'BUTTON') {
-                startingItem.classList.remove('active');
                 e.target.classList.add('active'); 
                 if(prevButton !== null) {
                     prevButton.classList.remove('active');  
+                    removeInformation(prevButton);
                 }
                 prevButton = e.target;
                 displayInformation(e.target);
             }
         }
+        const removeInformation = (e) => {
+            var index = e.id.split('').pop();
+            var refereceData = 'slide' + index;
+            var slide = document.getElementById(refereceData);
+            slide.classList.add('hidden');
+        }
         const displayInformation = (e) => {
-
-            if (e.id === "button0"){
-                specifications.innerHTML = tinSpec;
-                capacity.innerHTML = tinCap;
-                diameter.innerHTML = tinDiam;
-                shape.innerHTML = tinShape;
-                printing.innerHTML = tinPrint;
-            }
-            else if (e.id === "button1"){
-                specifications.innerHTML = allSpec;
-                capacity.innerHTML = allCap;
-                diameter.innerHTML = allDiam;
-                shape.innerHTML = allShape;
-                printing.innerHTML = allPrint;
-            }
-            else if (e.id === "button2"){
-                specifications.innerHTML = areValSpec;
-                capacity.innerHTML = areValCap;
-                diameter.innerHTML = areValDiam;
-                shape.innerHTML = areValShape;
-                printing.innerHTML = areValPrint;
-            }
-            else if (e.id === "button3"){
-                specifications.innerHTML = areActSpec;
-                capacity.innerHTML = areActCap;
-                diameter.innerHTML = areActDiam;
-                shape.innerHTML = areActShape;
-                printing.innerHTML = areActPrint;
-            }
+            var index = e.id.split('').pop();
+            var refereceData = 'slide' + index;
+            var slide = document.getElementById(refereceData);
+            slide.classList.remove('hidden');
         }
         
-        var startingItem = document.getElementById("button0");
-        displayInformation(startingItem);
-        startingItem.classList.add("active");
         
-        buttonGroup.addEventListener("mouseover", buttonPressed);
+        buttonGroup.addEventListener('click', buttonPressed);
     </script>
 </html>
