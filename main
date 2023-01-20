@@ -16,12 +16,18 @@
         .hidden {
             display: none;
         }
+        .block {
+            width: 320px;
+            padding: 10px;
+            border: 5px solid gray;
+            margin: 0;
+        }
     </style>
         <div id="inputGroup">
-            <input id="input0">Tin Aresole Cans</input>
-            <input id="input1">Alluminum Cans</input>
-            <input id="input2">Aresole Valves</input>
-            <input id="input3">Aresole Actuators</input>
+            <div id="input0" class="block">Tin Aresole Cans</div>
+            <div id="input1" class="block">Alluminum Cans</div>
+            <div id="input2" class="block">Aresole Valves</div>
+            <div id="input3" class="block">Aresole Actuators</div>
         </div>
     <div id = "slide0">
         <div>First Slide</div>
@@ -46,7 +52,7 @@
         let prevInput = startinginput;
         
         const inputPressed = (e) => {
-            if(e.target.nodeName === 'INPUT') {
+            if(e.target.nodeName === 'DIV') {
                 e.target.classList.add('active'); 
                 if(prevInput !== null) {
                     prevInput.classList.remove('active');  
