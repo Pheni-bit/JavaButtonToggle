@@ -1,21 +1,5 @@
 <html>
     <style>
-        button {
-            padding: 10px;
-            font-size: 1.1em;
-            background: white;
-            color: black;
-            border: none;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-        }
-        .active {
-            background:#32bacf;
-        }
-        .hidden {
-            display: none;
-        }
         .block {
             width: 320px;
             padding: 10px;
@@ -23,63 +7,158 @@
             margin: 0;
         }
     </style>
-        <div id="toggle-group">
-            <div>
-            <div id="toggle-btn-1" class="block">Tin Aresole Cans</div>
-            <div id="toggle-btn-2" class="block">Alluminum Cans</div>
-            <div id="toggle-btn-333" class="block">Aresole Valves</div>
-            <div id="toggle-btn-4" class="block">Aresole Actuators</div>
-            </div>
-        </div>
-    <div id = "toggle-sec-1">
-        <div>First Slide</div>
+    
+    
+    
+    <div id='testing'>
+            
     </div>
-    <div id = "toggle-sec-2" class='hidden'>
-        <div>Second Slide</div>
-    </div>
-    <div id = "toggle-sec-333" class='hidden'>
-        <div>Third Slide</div>
-    </div>
-    <div id = "toggle-sec-4" class='hidden'>
-        <div>Fourth Slide</div>
-    </div>
+    <label for='joist-size-dd'>Joist Size</label>
+    <select name= 'joist-size-dd' id='joist-size-dd' onchange='jsFunction(this.value, this.id);'>
+        <option value='5.905511805'>6</option>
+        <option value='7.87401574'>8</option>
+        <option value='9.842519675'>10</option>
+        <option value='11.81102361'>12</option>
+        <option value='13.779527545'>14</option>
+        <option value='15.74803148'>16</option>
+        <option value='17.716535415'>18</option>
+    </select>
+    <br>
+    <label for='joist-spacing-dd'>Joist Spacing</label>
+    <select name= 'joist-spacing-dd' id='joist-spacing-dd'>
+        <option value='1.00000000152'>1</option>
+        <option value='2.00000000304'>2</option>
+        <option value='3.00000000456'>3</option>
+        <option value='4.00000000608'>4</option>
+        <option value='5.0000000076'>5</option>
+    </select>
+    <br>
+    <label for='first-hole-location-dd'>Input Hole Location</label>
+    <select name= 'first-hole-location-dd' id='first-hole-location-dd'>
+        <option value='3.49999999643'>3.5</option>
+        <option value='3.99999999592'>4</option>
+    </select>
+    <br>
+    <label for='sdl-input'>SDL</label>
+    <input type='number'  id='sdl-input' name='sdl-input' min='0' max='10' step='1' onchange='CorrectInputValue(this.min, this.max, value, this.id, 1)'>
+    <br>
+    <label for='live-load-input'>Live Load</label>
+    <input type='number' id='live-load-input' name='live-load-input' min='0' max='10'>
+    <br>
+    <label for='deflection-limit-dd'>Deflection Limit</label>
+    <select name='deflection-limit-dd' id='deflection-limit-dd'>
+        <option value='360'>360</option>
+        <option value='500'>500</option>
+    </select>
+    <br>
+    <button type='button' onclick='SubmitData()'>Submit</button>
+    
     <script>
+        var joistSizeDropDown = document.getElementById('joist-size-dd');
+        var joistSpacingDropDown = document.getElementById('joist-spacing-dd');
+        var firstHoleLocationDropDown = document.getElementById('first-hole-location-dd');
+        var sdlInput = document.getElementById('sdl-input');
+        var liveLoadInput = document.getElementById('live-load-input');
+        var deflectionLimitDropDown = document.getElementById('deflection-limit-dd');
         
-        const toggleGroup = document.getElementById("toggle-group"); 
+        var testElement = document.getElementById('testing');
         
-        var startingToggleButton = document.getElementById('toggle-btn-1');
-        startingToggleButton.classList.add('active');
+        const joistData = {
+            6 :     { weight : 6.2493114675 , area : 1.8383036766, lx : 12.3, rx : 2.57, sx : 2.89, j : 9.23, cw : 7.82, lxd : 12.3, sxe : 2.89, mr : 10.8, vr : 14.4, vrh : 'NA'},
+            8 :     { weight : 7.06 , area : 2.07, lx : 22.6, rx : 3.30, sx : 4.28, j : 10.74, cw : 12.29, lxd : 22.6, sxe : 4.28, mr : 16.0, vr : 20.7, vrh : 'NA'},
+            10 :    { weight : 7.86 , area : 2.30, lx : 37.0, rx : 4.00, sx : 5.85, j : 12.47, cw : 18.99, lxd : 36.8, sxe : 5.83, mr : 21.8, vr : 21.0, vrh : 7.3},
+            12 :    { weight : 8.67 , area : 2.54, lx : 55.7, rx : 4.69, sx : 7.59, j : 13.29, cw : 27.56, lxd : 55.0, sxe : 7.10, mr : 26.6, vr : 18.7, vrh : 9.0},
+            14 :    { weight : 9.47 , area : 2.77, lx : 79.5, rx : 5.35, sx : 9.50, j : 14.73, cw : 37.98, lxd : 77.6, sxe : 8.80, mr : 33.0, vr : 15.7, vrh : 4.9},
+            16 :    { weight : 10.21 , area : 3.00, lx : 108.6, rx : 6.01, sx : 11.56, j : 16.22, cw : 50.65, lxd : 105.0, sxe : 10.62, mr : 39.8, vr : 13.6, vrh : 6.1},
+            18 :    { weight : 11.02 , area : 3.23, lx : 143.4, rx : 6.66, sx : 13.79, j : 17.85, cw : 65.54, lxd : 137.7, sxe : 12.55, mr : 47.1, vr : 11.9, vrh : 7.0},
+        }
+        const slabData = {
+            3.5 : {  
+                6 : { lxc : 28.8, mrc : 16.3, vr : 14.4, vrh : 'NA' },
+                8 : { lxc : 57.4, mrc : 25.5, vr : 20.7, vrh : 'NA' },
+                10 : { lxc : 92.0, mrc : 34.1, vr : 21.0, vrh : 7.3 },
+                12 : { lxc : 131.7, mrc : 42.3, vr : 18.7, vrh : 9.0 },
+                14 : { lxc : 179.5, mrc : 51.0, vr : 15.7, vrh : 4.9 },
+                16 : { lxc : 235.9, mrc : 60.3, vr : 13.6, vrh : 6.1 },
+                18 : { lxc : 301.3, mrc : 69.9, vr : 11.9, vrh : 7.0 },
+            },
+            4.0 : {
+                6 : { lxc : 29.3, mrc : 15.6, vr : 14.4, vrh : "NA" },
+                8 : { lxc : 57.9, mrc : 24.5, vr : 20.7, vrh : "NA" },
+                10 : { lxc : 99.2, mrc : 35.4, vr : 21.0, vrh : 7.3 },
+                12 : { lxc : 144.4, mrc : 44.7, vr : 18.7, vrh : 9.0 },
+                14 : { lxc : 196.0, mrc : 53.8, vr : 15.7, vrh : 4.9 },
+                16 : { lxc : 257.1, mrc : 63.4, vr : 13.6, vrh : 6.1 },
+                18 : { lxc : 327.7, mrc : 73.5, vr : 11.9, vrh : 7.0 },
+            },
+        }
         
-        let prevToggleButton = startingToggleButton;
+        var summitedData = {
+            joistSize : 0, joistSpacing : 0, firstHoleLocation : 0, sdl : 0, liveLoad : 0, deflectionLimit : 0
+        }
         
-        const ToggleButtonPressed = (e) => {
-            if(e.target.nodeName === 'DIV') {
-                var targetID = e.target.id.replace(/\d+/g, '');
-                if (targetID !== 'toggle-btn-' || e.target.id === prevToggleButton.id){
-                    return;
-                }
-                e.target.classList.add('active'); 
-                if(prevToggleButton !== null) {
-                    prevToggleButton.classList.remove('active');  
-                    RemoveInformation(prevToggleButton);
-                }
-                prevToggleButton = e.target;
-                DisplayInformation(e.target);
+        function CorrectInputValue(minimus, maximus, val, ident, decimals){
+            var returnValue;
+            if (val < minimus)
+                returnValue = minimus;
+            else if (val > maximus)
+                returnValue = maximus;
+            else
+                returnValue = Round(val, decimals);
+            document.getElementById(ident).value = returnValue;
+        }
+        
+        function SubmitData(){
+            if (CheckForInputValues() === false){
+                TestFunction("NEED TO COMPLETE");
+                return
             }
+            
+            SaveSummitedData();
+            
+            CalculateNonCompositeFigures()
+            
+            
         }
-        const RemoveInformation = (e) => {
-            var index = e.id.replace(/\D/g,'');
-            var refereceData = 'toggle-sec-' + index;
-            var slide = document.getElementById(refereceData);
-            slide.classList.add('hidden');
-        }
-        const DisplayInformation = (e) => {
-            var index = e.id.replace(/\D/g,'');
-            var refereceData = 'toggle-sec-' + index;
-            var slide = document.getElementById(refereceData);
-            slide.classList.remove('hidden');
+        function CheckForInputValues(){
+            if (sdlInput.value.length !== 0 && liveLoadInput.value.length !== 0)
+                return true;
+            return false;
         }
         
-        toggleGroup.addEventListener('click', ToggleButtonPressed);
+        
+        function SaveSummitedData(){
+            summitedData['joistSize'] = joistSizeDropDown.value;
+            summitedData['joistSpacing'] = joistSpacingDropDown.value;
+            summitedData['firstHoleLocation'] = firstHoleLocationDropDown.value;
+            summitedData['sdl'] = sdlInput.value;
+            summitedData['liveLoad'] = liveLoadInput.value;
+            summitedData['deflectionLimit'] = deflectionLimitDropDown.value;
+        }
+        
+        function CalculateNonCompositeFigures(){
+            var joist = RoundDown(summitedData['joistSize'] / 0.0393700787)
+            TestFunction(joist);
+        }
+        
+        
+        // The decimals is how many decimal places you would like to round to. 0 being integers, 1 being 1 decimal place, etc.
+        function Round(val, decimals) {
+            var multiplier = Math.pow(10, decimals || 0);
+            return Math.round(val * multiplier) / multiplier;
+        }
+        
+        function RoundDown(number, decimals) {
+            decimals = decimals || 0;
+            return ( Math.floor( number * Math.pow(10, decimals) ) / Math.pow(10, decimals) );
+        }
+        
+        
+        
+        function TestFunction(val)
+        {
+            /*var tes = slabData[3.5][value]['mrc'];*/
+            testElement.innerHTML = val;
+        }
     </script>
 </html>
